@@ -7,5 +7,14 @@ Note: these operators will be applied elementwise to a vector of
 permutations
 
 """
-
-def 
+import random
+def insert(lyst):
+    k = lyst[random.randint(0,len(lyst))] #which element will be moved
+    i = random.randint(0,len(lyst)) #where will it be moved to
+    lyst.remove(k)
+    lyst.insert(i,k)
+    return lyst
+def inverse(lyst):
+    #define bounds for the subset
+    i1 = random.randint(0,len(lyst)) #index 1
+    i2 = random.randint(0,len(lyst)) #index 2
