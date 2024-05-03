@@ -10,7 +10,7 @@ permutations
 import random
 
 def randIndex(lyst:list):
-    return random.randrange(0,len(lyst))
+    return random.randint(0,len(lyst)-1)
   
 
 def insert(lyst:list):
@@ -28,10 +28,20 @@ def inverse(lyst:list):
         raise Exception("Error: input for inverse was not a list")
     #define bounds for the subset
     i1,i2 = randIndex(lyst), randIndex(lyst)#index 1 and 2
-    pass
-    #ill do this later
-#takes in a lyst, swaps two elements at random, modifies it in place(?) as well as returns it
-
+    if i1>i2:
+        i1,i2 = i2,i1
+    elif i1==i2:
+        return lyst
+    reverseSect = lyst[i1:i2+1]
+    reverseSect.reverse()
+    lyst2=[]
+    for item in lyst[:i1]:
+        lyst2.append(item)
+    for item in reverseSect:
+        lyst2.append(item)
+    for item in lyst[i2+1:]:
+        lyst2.append(item)
+    return lyst2
 
 def swap(lyst:list):
     if not type(lyst) is list:
