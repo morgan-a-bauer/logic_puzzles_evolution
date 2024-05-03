@@ -18,7 +18,7 @@ def get_fitness(individual):
     rules = individual.pop.rules
     fitness = 1.0
     for rule in rules:
-        if not rule:
+        if not rule(individual):
             fitness -= (1 / len(rules))
 
     return fitness
