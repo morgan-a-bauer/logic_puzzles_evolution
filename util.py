@@ -95,6 +95,7 @@ if __name__ == "__main__":
         q = int(indiv.genotype[2][indiv[2].index(indiv.genotype[0][0])][0])
         return abs(p-q) == 2
     
+    #Clue 7
     def rule19(indiv):
         return indiv.genotype[0][4] == indiv.genotype[2][3]
     
