@@ -148,8 +148,6 @@ def pmx(p1: list, p2: list):
     return c1_part, c2_part
 
 
-
-
 # Contains all crossover operators
 CROSSOVER_LYST = [cycle, pmx]
 
