@@ -16,4 +16,19 @@ def random_perm(n: int) -> str:
 
 def get_fitness(individual):
     rules = individual.pop.rules
-    #TODO
+    fitness = 1.0
+    for rule in rules:
+        if not rule:
+            fitness -= (1 / len(rules))
+
+    return fitness
+
+
+if __name__ == "__main__":
+    def rule1(indiv):
+        return indiv.genotype[3][1] != indiv.genotype[1][0]
+
+    def rule2(indiv):
+        return indiv.genotype[3][1] != indiv.genotype[2][2]
+
+    def rule

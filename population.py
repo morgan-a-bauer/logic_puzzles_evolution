@@ -71,3 +71,7 @@ class Population:
         @property
         def pop(self):
             return self.__pop
+
+
+        def initialize(self):
+            
