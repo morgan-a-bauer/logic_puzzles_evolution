@@ -9,7 +9,7 @@ permutations
 """
 import random
 def randIndex(lyst:list):
-    return random.randint(0,len(lyst))
+    return random.randint(0,len(lyst)-1)
 def insert(lyst:list):
     if not type(lyst) is list:
         raise Exception("Error: input for insert was not a list")
