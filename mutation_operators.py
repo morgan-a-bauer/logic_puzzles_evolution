@@ -11,7 +11,7 @@ import random
 
 def randIndex(lyst:list):
     return random.randrange(0,len(lyst))
-
+  
 
 def insert(lyst:list):
     if not type(lyst) is list:
