@@ -31,4 +31,4 @@ if __name__ == "__main__":
     def rule2(indiv):
         return indiv.genotype[3][1] != indiv.genotype[2][2]
 
-    def rule
+    rules = [rule1, rule2]
