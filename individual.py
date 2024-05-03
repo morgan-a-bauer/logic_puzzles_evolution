@@ -12,14 +12,11 @@ from random import randrange, random
 from util import random_perm
 
 class Individual:
-    def __init__(self, perms: list, c_ind: int, m_ind: int, pc: float,
-                 pm: float):
+    def __init__(self, perms: list, c_ind: int, m_ind: int):
         self.__genotype = perms
         self.__fitness = 0.0
         self.__crossover_index = c_ind
         self.__mutation_index = m_ind
-        self.__pc = pc
-        self.__pm = pm
         self.__pop = None
 
 
@@ -58,36 +55,43 @@ class Individual:
         return self.__pop
 
 
+    @pop.setter
+    def pop(self, new_pop):
+        self.__pop = new_pop
+
+
     def __mul__(self, other):
         """Overloads the multiplication operator for recombination."""
 
-        # Determine which crossover operator is being used
-        operator = CROSSOVER_LYST[self.__crossover_index]
+        r = random()
+        if r < self.pop.pc:
+            # Determine which crossover operator is being used
+            operator = CROSSOVER_LYST[self.__crossover_index]
 
-        # Initialize child genotypes
-        c1 = []
-        c2 = []
+            # Initialize child genotypes
+            c1 = []
+            c2 = []
 
-        # Populate child genotypes
-        for p1_perm, p2_perm in zip(self.__genotype, other.genotype):
-            c1_perm, c2_perm = operator(p1_perm, p2_perm)
-            c1.append(c1_perm)
-            c2.append(c2_perm)
+            # Populate child genotypes
+            for p1_perm, p2_perm in zip(self.__genotype, other.genotype):
+                c1_perm, c2_perm = operator(p1_perm, p2_perm)
+                c1.append(c1_perm)
+                c2.append(c2_perm)
 
-        # Instantiate and return new Individual objects representing the children
-        return Individual(c1, self.__crossover_index, self.__mutation_index,
-                          self.__pc, self.__pm),\
-               Individual(c2, self.__crossover_index, self.__mutation_index,
-                          self.__pc, self.__pm)
+            # Instantiate and return new Individual objects representing the children
+            return Individual(c1, self.__crossover_index, self.__mutation_index),\
+                Individual(c2, self.__crossover_index, self.__mutation_index)
 
 
     def __invert__(self):
+        """Overloads the ~ operator for mutation."""
         operator = MUTATION_LYST[self.__mutation_index]
 
+        # Each permutation (except the last) is mutated independently
         for loc, perm in enumerate(self.__genotype):
             if loc != len(self.__genotype) - 1:
                 r = random()
-                if r < self.__pm:
+                if r < self.pop.pm:
                     self.__genotype[loc] = operator(perm)
 
 
@@ -101,14 +105,14 @@ if __name__ == "__main__":
     p2 = random_perm(5)
     p3 = random_perm(5)
 
-    i1 = Individual([p1, p2, p3, [1, 2, 3, 4, 5]], 0, 2, 0.3, 0.01)
+    i1 = Individual([p1, p2, p3, [1, 2, 3, 4, 5]], 0, 2)
     print(i1)
 
     p4 = random_perm(5)
     p5 = random_perm(5)
     p6 = random_perm(5)
 
-    i2 = Individual([p4, p5, p6, [1, 2, 3, 4, 5]], 0, 2, 0.3, 0.01)
+    i2 = Individual([p4, p5, p6, [1, 2, 3, 4, 5]], 0, 2)
     print(i2)
     print()
 
@@ -117,10 +121,10 @@ if __name__ == "__main__":
     print(c2)
 
     print("\nPMX Crossover:\n")
-    i3 = Individual([p1, p2, p3, [1, 2, 3, 4, 5]], 1, 2, 0.3, 0.01)
+    i3 = Individual([p1, p2, p3, [1, 2, 3, 4, 5]], 1, 2)
     print(i3)
 
-    i4 = Individual([p4, p5, p6, [1, 2, 3, 4, 5]], 1, 2, 0.3, 0.01)
+    i4 = Individual([p4, p5, p6, [1, 2, 3, 4, 5]], 1, 2)
     print(i4)
     print()
 
