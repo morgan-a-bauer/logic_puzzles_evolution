@@ -6,6 +6,7 @@ A class representing an individual for an evolutionary approach to solving
 logic grid puzzles. Each individual is a vector of permutations.
 
 """
+from copy import deepcopy
 from crossover_operators import CROSSOVER_LYST
 from mutation_operators import MUTATION_LYST
 from random import randrange, random
@@ -44,16 +45,29 @@ class Individual:
 
 
     def evaluate_fitness(self):
-        self.__fitness = self.pop.fitness_func(self)
+        self.__fitness = self.__pop.fitness_func(self)
+
+
+    def __invert__(self):
+        """Overloads the ~ operator for mutation."""
+        operator = MUTATION_LYST[self.__pop.mutation_ind]
+
+        # Each permutation (except the last) is mutated independently
+        for loc, perm in enumerate(self.__genotype):
+            if loc != len(self.__genotype) - 1:
+                r = random()
+                if r < self.__pop.pm:
+                    self.__genotype[loc] = operator(perm)
 
 
     def __mul__(self, other):
         """Overloads the multiplication operator for recombination."""
 
+        # Only crosses over a certain percentage of the time
         r = random()
         if r < self.__pop.pc:
             # Determine which crossover operator is being used
-            operator = CROSSOVER_LYST[self.__pop.crossover_index]
+            operator = CROSSOVER_LYST[self.__pop.crossover_ind]
 
             # Initialize child genotypes
             c1 = []
@@ -65,20 +79,22 @@ class Individual:
                 c1.append(c1_perm)
                 c2.append(c2_perm)
 
-            # Instantiate and return new Individual objects representing the children
-            return Individual(c1), Individual(c2)
+            # Instantiate new Individual objects representing the children
+            c1, c2 = Individual(c1), Individual(c2)
 
+        else:
+            c1 = deepcopy(self)
+            c2 = deepcopy(other)
 
-    def __invert__(self):
-        """Overloads the ~ operator for mutation."""
-        operator = MUTATION_LYST[self._pop.mutation_index]
+        # Set child populations
+        c1.pop = self.__pop
+        c2.pop = self.__pop
 
-        # Each permutation (except the last) is mutated independently
-        for loc, perm in enumerate(self.__genotype):
-            if loc != len(self.__genotype) - 1:
-                r = random()
-                if r < self.__pop.pm:
-                    self.__genotype[loc] = operator(perm)
+        # Perform mutation on children
+        ~c1
+        ~c2
+
+        return c1, c2
 
 
     def __lt__(self, other):
