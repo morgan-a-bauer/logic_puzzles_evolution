@@ -121,11 +121,27 @@ class Population:
                               (self.__num_categories, self.__items_per_category),
                               self.__puzzle, self.__rules, self.__crossover_ind,
                               self.__mutation_ind, self.__num_rounds)
+
         child_lyst = []
-        while len(child_lyst) != len(self.__pop_lyst):
+
+        while len(child_lyst) != self.__pop_size:
             parent1 = self.select_parent()
             parent2 = self.select_parent()
 
+            # Crossover parents
+            child1, child2 = parent1 * parent2
+
+            # Evaluate child fitness
+            child1.evaluate_fitness()
+            child2.evaluate_fitness()
+
+            # Populate child_lyst
+            child_lyst.append(child1)
+            child_lyst.append(child2)
+
+        next_gen.pop_lyst = child_lyst
+
+        return next_gen
 
     def __str__(self):
         print_str = ''
@@ -237,3 +253,12 @@ if __name__ == "__main__":
     print("\nSelection\n")
     p1 = new_pop.select_parent()
     print(p1.fitness)
+
+    print("\nNew Generation\n")
+    for i in range(500):
+        new_pop = new_pop.new_generation()
+        print(f"gen {i + 1}: {max(new_pop.pop_lyst).fitness}")
+
+        if max(new_pop.pop_lyst).fitness == 1.0:
+            print(max(new_pop.pop_lyst))
+            break
