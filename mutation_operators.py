@@ -58,5 +58,6 @@ def scramble(lyst:list): #like an egg before you get folded like an omlet
         raise Exception("Error: input for swap was not a list")
     #this is a really complex program
     random.shuffle(lyst)
+    return lyst
 
 MUTATION_LYST = [insert, inverse, swap, scramble]
