@@ -53,4 +53,10 @@ def swap(lyst:list):
     lyst[i1], lyst[i2] = lyst[i2], lyst[i1]
     return lyst #likely unecessary; should do it in place
 
-MUTATION_LYST = [insert, inverse, swap]
+def scramble(lyst:list): #like an egg before you get folded like an omlet
+    if not type(lyst) is list:
+        raise Exception("Error: input for swap was not a list")
+    #this is a really complex program
+    lyst.shuffe()
+
+MUTATION_LYST = [insert, inverse, swap, scramble]
