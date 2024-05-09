@@ -8,6 +8,7 @@ permutations
 
 """
 import random
+#TODO: Test in-place
 
 def randIndex(lyst:list):
     return random.randint(0,len(lyst)-1)

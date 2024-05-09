@@ -15,9 +15,17 @@ def random_perm(n: int) -> str:
 
 
 def get_fitness(individual):
+    """Compute the fitness of an individual
+
+    Input:
+    individual -- a member of the Individual class
+
+    """
     rules = individual.pop.rules
     fitness = 1.0
+
     for rule in rules:
+
         if not rule(individual):
             fitness -= (1 / len(rules))
 

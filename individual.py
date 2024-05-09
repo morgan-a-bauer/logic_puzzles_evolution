@@ -90,6 +90,7 @@ class Individual:
         c1.pop = self.__pop
         c2.pop = self.__pop
 
+
         # Perform mutation on children
         ~c1
         ~c2
@@ -106,7 +107,8 @@ class Individual:
 
 
     def __str__(self) -> str:
-        return "   ".join(["".join(map(str, perm)) for perm in self.__genotype])
+        genotype_str = "   ".join(["".join(map(str, perm)) for perm in self.__genotype])
+        return f"{genotype_str}           {self.__fitness:.4f}"
 
 
 if __name__ == "__main__":
