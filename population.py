@@ -27,6 +27,7 @@ class Population:
         self.__mutation_ind = mutation_ind  # Which mutation operator is used
         self.__num_rounds = num_rounds  # For tournament selection
         self.__pop_lyst = []
+        self.__sof = 0.0
 
 
     @property
@@ -94,32 +95,56 @@ class Population:
         self.__pop_lyst = new_lyst
 
 
+    @property
+    def sof(self):
+        return self.__sof
+
+
+    @sof.setter
+    def sof(self, new_sof):
+        self.__sof = new_sof
+
+
     def initialize_pop(self):
         for i in range(self.__pop_size):
             new_genotype = [random_perm(self.__items_per_category) for\
                             i in range(self.__num_categories - 1)] +\
-                            [[i for i in range(1, self.__items_per_category + 1)]]
+                            [[i for i in range(1,
+                                               self.__items_per_category + 1)]]
             new_indiv = Individual(new_genotype)
             new_indiv.pop = self
             new_indiv.evaluate_fitness()
+            self.__sof += new_indiv.fitness
             self.__pop_lyst.append(new_indiv)
 
 
     def select_parent(self):
+        """Tournament selection with an arbitrary number of rounds"""
+
+        # Choose individuals in a uniformly random manner
         contestants = [[choice(self.__pop_lyst) for i in range(2)] for i in\
                        range(self.__num_rounds * 2)]
+
+        # One round of tournament selection
         for round in range(self.__num_rounds):
+
+            # Take the maximum fitness of each pair of individuals
             for bracket_num, bracket in enumerate(contestants):
                 contestants[bracket_num] = max(bracket)
+
+            # Create new pairs
             if round != self.__num_rounds - 1:
-                contestants = [[contestants[2 * i], contestants[2 * i + 1]] for i in range((len(contestants) // 2))]
+                contestants = [[contestants[2 * i], contestants[2 * i + 1]] for\
+                                i in range((len(contestants) // 2))]
+
         return max(contestants)
 
 
     def new_generation(self):
         next_gen = Population(self.__pop_size, self.__pc, self.__pm,
-                              (self.__num_categories, self.__items_per_category),
-                              self.__puzzle, self.__rules, self.__crossover_ind,
+                              (self.__num_categories,
+                              self.__items_per_category), self.__puzzle,
+                              self.__rules, self.__crossover_ind,
                               self.__mutation_ind, self.__num_rounds)
 
         child_lyst = []
@@ -134,6 +159,9 @@ class Population:
             # Evaluate child fitness
             child1.evaluate_fitness()
             child2.evaluate_fitness()
+
+            next_gen.sof += child1.fitness
+            next_gen.sof += child2.fitness
 
             # Populate child_lyst
             child_lyst.append(child1)
