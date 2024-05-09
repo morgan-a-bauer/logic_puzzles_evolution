@@ -8,7 +8,6 @@ Statistics and output for the implementation of the Simple Genetic algorithm in
 sga.py
 """
 from population import Population
-from numpy import where
 
 def stats(pop: Population):
     """Generates and returns stats for a Population pop"""
