@@ -8,6 +8,7 @@ permutations
 
 """
 import random
+#TODO: Test in-place
 
 def randIndex(lyst:list):
     return random.randint(0,len(lyst)-1)
@@ -42,16 +43,20 @@ def inverse(lyst:list):
     for item in lyst[i2+1:]:
         lyst2.append(item)
     return lyst2
-        
-    
-#takes in a lyst, swaps two elements at random, modifies it in place(?) as well as returns it
+
 def swap(lyst:list):
     if not type(lyst) is list:
         raise Exception("Error: input for swap was not a list")
-    i1,i2 = randIndex(lyst), randIndex(lyst)#index 1 and 2
-    temp = lyst[i1]
-    lyst[i1]=lyst[i2]
-    lyst[i2] = temp
+    #grab two random indices
+    i1,i2 = randIndex(lyst), randIndex(lyst)
+    #swap  
+    lyst[i1], lyst[i2] = lyst[i2], lyst[i1]
     return lyst #likely unecessary; should do it in place
 
-MUTATION_LYST = [insert, inverse, swap]
+def scramble(lyst:list): #like an egg before you get folded like an omlet
+    if not type(lyst) is list:
+        raise Exception("Error: input for swap was not a list")
+    #this is a really complex program
+    lyst.shuffe()
+
+MUTATION_LYST = [insert, inverse, swap, scramble]
