@@ -46,10 +46,10 @@ def inverse(lyst:list):
 def swap(lyst:list):
     if not type(lyst) is list:
         raise Exception("Error: input for swap was not a list")
-    i1,i2 = randIndex(lyst), randIndex(lyst)#index 1 and 2
-    temp = lyst[i1]
-    lyst[i1]=lyst[i2]
-    lyst[i2] = temp
+    #grab two random indices
+    i1,i2 = randIndex(lyst), randIndex(lyst)
+    #swap  
+    lyst[i1], lyst[i2] = lyst[i2], lyst[i1]
     return lyst #likely unecessary; should do it in place
 
 MUTATION_LYST = [insert, inverse, swap]
