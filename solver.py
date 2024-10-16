@@ -44,10 +44,13 @@ def main():
                                     crossover_ind, mutation_ind, num_rounds)
             generation.initialize_pop()
 
+        # Report generation statistics and determine if a correct solution was found
         gen_stats = stats(generation)
         top = report(generation, gen_num)
         if top.fitness == 1.0:
             break
+
+        # Initialize the new generation
         generation = generation.new_generation()
 
 if __name__ == "__main__":
