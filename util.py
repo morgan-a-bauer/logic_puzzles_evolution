@@ -9,6 +9,12 @@ from random import shuffle
 
 
 def random_perm(n: int) -> str:
+    """Generate a random permutation
+
+    Input:
+    n -- the length of the permutation to be generated
+
+    ""
     p = [i for i in range(1, n+ 1)]
     shuffle(p)
     return p
