@@ -106,6 +106,10 @@ class Population:
 
 
     def initialize_pop(self):
+        """Initialize the population by generating random individuals and
+        evaluating their fitness
+
+        """
         for i in range(self.__pop_size):
             new_genotype = [random_perm(self.__items_per_category) for\
                             i in range(self.__num_categories - 1)] +\
@@ -141,6 +145,8 @@ class Population:
 
 
     def new_generation(self):
+        """Create a new generation"""
+        # Initialize new Population object
         next_gen = Population(self.__pop_size, self.__pc, self.__pm,
                               (self.__num_categories,
                               self.__items_per_category), self.__puzzle,
@@ -149,7 +155,9 @@ class Population:
 
         child_lyst = []
 
+        # Populate list of children from current generation
         while len(child_lyst) != self.__pop_size:
+            # Select parents
             parent1 = self.select_parent()
             parent2 = self.select_parent()
 
